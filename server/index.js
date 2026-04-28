@@ -11,11 +11,13 @@ app.use(express.json());
 // Routes
 
 const clientRoutes = require("./routing/clientRoutes");
+const authRoutes = require("./routing/auth");
 
 app.get("/", (req, res) => {
   res.send("api running");
 });
 
+app.use("/auth", authRoutes);
 app.use("/clients", clientRoutes);
 
 const PORT = process.env.PORT || 5000;
