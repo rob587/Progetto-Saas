@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = (newToken) => {
-    setToken(token);
+    setToken(newToken);
     localStorage.setItem("token", newToken);
   };
 
