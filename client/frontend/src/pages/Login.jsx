@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,6 +60,12 @@ const Login = () => {
               Login
             </Button>
           </Form>
+
+          <div className="mt-3 text-center">
+            <p>
+              Non hai un account? <Link to="/register">Registrati qui</Link>
+            </p>
+          </div>
         </div>
       </Container>
     </>
