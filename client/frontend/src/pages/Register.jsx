@@ -11,6 +11,32 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (password !== confirmPassword) {
+      setError("le password non corrispondono");
+      return;
+    }
+
+    try {
+      const res = await API.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+      setSuccess("Registrazione effettuata con successo");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registrazione fallita");
+    }
+  };
+
   return <></>;
 };
 
