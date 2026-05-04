@@ -10,6 +10,13 @@ const DashBoard = () => {
   const { logout } = useContext(AuthContext);
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  const [error, setError] = useState("");
 
   const fetchClients = async () => {
     try {
@@ -19,6 +26,20 @@ const DashBoard = () => {
       console.error("Error fetching clients:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleClient = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const res = await API.post("/clients", formData);
+      setClients([...clients, { id: res.data.id, ...formData }]);
+      setFormData({ name: "", email: "", phone: "" });
+      setShowModal(false);
+    } catch (err) {
+      setError(err.response?.data?.message || "Errore nell'aggiunta");
     }
   };
 
