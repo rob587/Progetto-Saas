@@ -12,6 +12,7 @@ import {
   Modal,
   Form,
   Alert,
+  ModalFooter,
 } from "react-bootstrap";
 
 const DashBoard = () => {
@@ -40,7 +41,7 @@ const DashBoard = () => {
     }
   };
 
-  const handleClient = async (e) => {
+  const handleSaveClient = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -110,7 +111,7 @@ const DashBoard = () => {
 
       <Container className="mt-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2>I Tuoi Clienti</h2>
+          <h2 className="text-white">I Tuoi Clienti</h2>
           <Button variant="success" onClick={() => setShowModal(true)}>
             + Aggiungi Cliente
           </Button>
@@ -130,6 +131,7 @@ const DashBoard = () => {
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Telefono</th>
+                <th>Azioni</th>
               </tr>
             </thead>
             <tbody>
@@ -139,6 +141,23 @@ const DashBoard = () => {
                   <td>{client.name}</td>
                   <td>{client.email}</td>
                   <td>{client.phone}</td>
+                  <td>
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      onClick={() => handleEdit(client)}
+                      className="me-2"
+                    >
+                      ✏️ Modifica
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDelete(client.id)}
+                    >
+                      🗑️ Cancella
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -149,11 +168,13 @@ const DashBoard = () => {
       {/* Modal per aggiungere cliente */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Aggiungi Nuovo Cliente</Modal.Title>
+          <Modal.Title>
+            {isEditing ? "Modifica Cliente" : "Aggiungi Nuovo Cliente"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleClient}>
+          <Form onSubmit={handleSaveClient}>
             <Form.Group className="mb-3">
               <Form.Label>Nome</Form.Label>
               <Form.Control
@@ -194,9 +215,21 @@ const DashBoard = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
-              Aggiungi
+              {isEditing ? "Aggiorna" : "Aggiungi"}
             </Button>
           </Form>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setShowModal(false);
+                setFormData({ name: "", email: "", phone: "" });
+                setIsEditing(false);
+              }}
+            >
+              Chiudi
+            </Button>
+          </Modal.Footer>
         </Modal.Body>
       </Modal>
     </>

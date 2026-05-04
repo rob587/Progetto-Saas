@@ -42,11 +42,8 @@ const Register = () => {
 
   return (
     <>
-      <Container
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <div style={{ width: "100%", maxWidth: "400px" }}>
+      <Container className="auth-container" style={{ height: "100vh" }}>
+        <div className="auth-card" style={{ width: "100%", maxWidth: "400px" }}>
           <h2 className="mb-4 text-center">Registrati</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {success && <Alert variant="success">{success}</Alert>}
@@ -55,7 +52,6 @@ const Register = () => {
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Scegli un username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -66,7 +62,6 @@ const Register = () => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="La tua email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -77,7 +72,6 @@ const Register = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Crea una password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -88,7 +82,6 @@ const Register = () => {
               <Form.Label>Conferma Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Ripeti la password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -101,7 +94,7 @@ const Register = () => {
           </Form>
 
           <div className="mt-3 text-center">
-            <p>
+            <p className="text-white">
               Hai già un account? <Link to="/">Accedi qui</Link>
             </p>
           </div>
