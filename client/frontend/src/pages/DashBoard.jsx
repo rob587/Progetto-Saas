@@ -3,7 +3,16 @@ import API from "../services/api";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { Navbar, Container, Button, Table, Spinner } from "react-bootstrap";
+import {
+  Navbar,
+  Container,
+  Button,
+  Table,
+  Spinner,
+  Modal,
+  Form,
+  Alert,
+} from "react-bootstrap";
 
 const DashBoard = () => {
   const navigate = useNavigate();
@@ -64,7 +73,12 @@ const DashBoard = () => {
       </Navbar>
 
       <Container className="mt-4">
-        <h2 className="mb-4">I Tuoi Clienti</h2>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2>I Tuoi Clienti</h2>
+          <Button variant="success" onClick={() => setShowModal(true)}>
+            + Aggiungi Cliente
+          </Button>
+        </div>
 
         {loading ? (
           <div className="text-center">
@@ -95,6 +109,60 @@ const DashBoard = () => {
           </Table>
         )}
       </Container>
+
+      {/* Modal per aggiungere cliente */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Aggiungi Nuovo Cliente</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleClient}>
+            <Form.Group className="mb-3">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nome cliente"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Email cliente"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Telefono</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Telefono cliente"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+                required
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="w-100">
+              Aggiungi
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
