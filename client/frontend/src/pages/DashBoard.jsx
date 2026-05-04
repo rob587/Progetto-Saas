@@ -26,6 +26,8 @@ const DashBoard = () => {
     phone: "",
   });
   const [error, setError] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const fetchClients = async () => {
     try {
@@ -43,12 +45,46 @@ const DashBoard = () => {
     setError("");
 
     try {
-      const res = await API.post("/clients", formData);
-      setClients([...clients, { id: res.data.id, ...formData }]);
+      if (isEditing) {
+        // UPDATE
+        await API.put(`/clients/${editingId}`, formData);
+        setClients(
+          clients.map((client) =>
+            client.id === editingId ? { id: editingId, ...formData } : client,
+          ),
+        );
+        setIsEditing(false);
+      } else {
+        // CREATE
+        const res = await API.post("/clients", formData);
+        setClients([...clients, { id: res.data.id, ...formData }]);
+      }
       setFormData({ name: "", email: "", phone: "" });
       setShowModal(false);
     } catch (err) {
-      setError(err.response?.data?.message || "Errore nell'aggiunta");
+      setError(err.response?.data?.message || "Errore");
+    }
+  };
+
+  const handleEdit = (client) => {
+    setFormData({
+      name: client.name,
+      email: client.email,
+      phone: client.phone,
+    });
+    setEditingId(client.id);
+    setIsEditing(true);
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Sei sicuro di voler eliminare questo cliente?")) {
+      try {
+        await API.delete(`/clients/${id}`);
+        setClients(clients.filter((client) => client.id !== id));
+      } catch (err) {
+        setError("Errore nell'eliminazione");
+      }
     }
   };
 
