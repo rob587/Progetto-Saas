@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import { FiUsers, FiPlus, FiEdit2, FiTrash2, FiLogOut } from "react-icons/fi";
 
-const DashBoard = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const [clients, setClients] = useState([]);
@@ -289,4 +289,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default Dashboard;
