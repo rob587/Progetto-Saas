@@ -2,26 +2,40 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./db");
+
 console.log("🔧 Starting server initialization...");
+
 const app = express();
+
 console.log("📦 Setting up middleware...");
 app.use(cors());
 app.use(express.json());
 
-// Routes
 console.log("🛣️  Setting up routes...");
-const clientRoutes = require("./routing/clientRoutes");
-const authRoutes = require("./routing/auth");
+
+try {
+  const clientRoutes = require("./routing/clientRoutes");
+  console.log("✅ Client routes loaded");
+  app.use("/clients", clientRoutes);
+} catch (err) {
+  console.error("❌ Error loading client routes:", err.message);
+}
+
+try {
+  const authRoutes = require("./routing/auth");
+  console.log("✅ Auth routes loaded");
+  app.use("/auth", authRoutes);
+} catch (err) {
+  console.error("❌ Error loading auth routes:", err.message);
+}
 
 app.get("/", (req, res) => {
   res.send("api running");
 });
 
-app.use("/auth", authRoutes);
-app.use("/clients", clientRoutes);
-
 const PORT = process.env.PORT || 5000;
 console.log(`⏳ Attempting to listen on port ${PORT}`);
+
 app.listen(PORT, () => {
-  console.log(`Server in apertura in ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
