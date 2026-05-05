@@ -12,8 +12,8 @@ import {
   Modal,
   Form,
   Alert,
-  ModalFooter,
 } from "react-bootstrap";
+import { FiUsers, FiPlus, FiEdit2, FiTrash2, FiLogOut } from "react-icons/fi";
 
 const DashBoard = () => {
   const navigate = useNavigate();
@@ -100,73 +100,138 @@ const DashBoard = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" className="mb-4">
+      <Navbar bg="dark" variant="dark" className="navbar-custom">
         <Container fluid>
-          <Navbar.Brand href="#home">ClientFlow</Navbar.Brand>
+          <Navbar.Brand href="#home">
+            <FiUsers style={{ marginRight: "10px" }} />
+            ClientFlow
+          </Navbar.Brand>
           <Button variant="outline-light" onClick={handleLogout}>
+            <FiLogOut style={{ marginRight: "8px" }} />
             Logout
           </Button>
         </Container>
       </Navbar>
 
-      <Container className="mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="text-white">I Tuoi Clienti</h2>
-          <Button variant="success" onClick={() => setShowModal(true)}>
-            + Aggiungi Cliente
+      <Container className="mt-5">
+        {/* Header Section */}
+        <div className="dashboard-header">
+          <div>
+            <h2>I Tuoi Clienti</h2>
+            <p className="text-muted" style={{ fontSize: "14px" }}>
+              Gestisci i tuoi clienti in un unico posto
+            </p>
+          </div>
+          <Button
+            variant="success"
+            onClick={() => {
+              setIsEditing(false);
+              setFormData({ name: "", email: "", phone: "" });
+              setShowModal(true);
+            }}
+            className="btn-add-client"
+          >
+            <FiPlus style={{ marginRight: "8px" }} />
+            Aggiungi Cliente
           </Button>
         </div>
 
-        {loading ? (
-          <div className="text-center">
-            <Spinner animation="border" />
+        {/* Stats Cards */}
+        <div className="stats-container" style={{ marginBottom: "40px" }}>
+          <div className="stat-card">
+            <div className="stat-icon">👥</div>
+            <div className="stat-content">
+              <h4>{clients.length}</h4>
+              <p>Clienti Totali</p>
+            </div>
           </div>
-        ) : clients.length === 0 ? (
-          <p className="text-muted">Nessun cliente trovato</p>
-        ) : (
-          <Table striped bordered hover responsive>
-            <thead className="table-dark">
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Telefono</th>
-                <th>Azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map((client) => (
-                <tr key={client.id}>
-                  <td>{client.id}</td>
-                  <td>{client.name}</td>
-                  <td>{client.email}</td>
-                  <td>{client.phone}</td>
-                  <td>
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      onClick={() => handleEdit(client)}
-                      className="me-2"
-                    >
-                      ✏️ Modifica
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDelete(client.id)}
-                    >
-                      🗑️ Cancella
-                    </Button>
-                  </td>
+          <div className="stat-card">
+            <div className="stat-icon">📧</div>
+            <div className="stat-content">
+              <h4>{clients.filter((c) => c.email).length}</h4>
+              <p>Con Email</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">📞</div>
+            <div className="stat-content">
+              <h4>{clients.filter((c) => c.phone).length}</h4>
+              <p>Con Telefono</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Table Section */}
+        <div className="table-container">
+          <h4 style={{ marginBottom: "20px", color: "#e2e8f0" }}>
+            Elenco Clienti
+          </h4>
+
+          {loading ? (
+            <div className="text-center" style={{ padding: "40px" }}>
+              <Spinner animation="border" variant="primary" />
+            </div>
+          ) : clients.length === 0 ? (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                color: "#94a3b8",
+              }}
+            >
+              <FiUsers
+                style={{ fontSize: "48px", marginBottom: "20px", opacity: 0.5 }}
+              />
+              <p style={{ fontSize: "16px" }}>Nessun cliente ancora</p>
+              <p style={{ fontSize: "14px" }}>
+                Clicca il bottone "Aggiungi Cliente" per iniziare
+              </p>
+            </div>
+          ) : (
+            <Table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefono</th>
+                  <th style={{ textAlign: "center" }}>Azioni</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <tr key={client.id}>
+                    <td>{client.name}</td>
+                    <td>{client.email}</td>
+                    <td>{client.phone}</td>
+                    <td style={{ textAlign: "center" }}>
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        onClick={() => handleEdit(client)}
+                        className="btn-action"
+                        style={{ marginRight: "8px" }}
+                      >
+                        <FiEdit2 /> Modifica
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleDelete(client.id)}
+                        className="btn-action"
+                      >
+                        <FiTrash2 /> Elimina
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
+        </div>
       </Container>
 
-      {/* Modal per aggiungere cliente */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>
             {isEditing ? "Modifica Cliente" : "Aggiungi Nuovo Cliente"}
@@ -218,18 +283,6 @@ const DashBoard = () => {
               {isEditing ? "Aggiorna" : "Aggiungi"}
             </Button>
           </Form>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setShowModal(false);
-                setFormData({ name: "", email: "", phone: "" });
-                setIsEditing(false);
-              }}
-            >
-              Chiudi
-            </Button>
-          </Modal.Footer>
         </Modal.Body>
       </Modal>
     </>

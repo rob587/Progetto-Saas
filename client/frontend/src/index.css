@@ -58,7 +58,7 @@ body {
 }
 
 .form-label {
-  color: var(--text);
+  color: #ffffff;
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -227,4 +227,163 @@ body {
 .alert-success {
   background: rgba(16, 185, 129, 0.1) !important;
   color: #86efac !important;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.1),
+    rgba(236, 72, 153, 0.1)
+  );
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+}
+
+.stat-icon {
+  font-size: 32px;
+  opacity: 0.8;
+}
+
+.stat-content h4 {
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat-content p {
+  color: #ffffff;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Table Container */
+.table-container {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid var(--border);
+}
+
+.custom-table {
+  margin: 0 !important;
+}
+
+.custom-table thead th {
+  background: rgba(99, 102, 241, 0.15) !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid var(--border) !important;
+  padding: 14px !important;
+}
+
+.custom-table td {
+  color: #ffffff !important;
+  padding: 14px !important;
+  border-color: var(--border) !important;
+  vertical-align: middle;
+}
+
+.custom-table tbody tr {
+  background: rgba(30, 41, 59, 0.7) !important;
+  transition: all 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+
+/* Action Buttons */
+.btn-action {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+}
+
+.btn-add-client {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.navbar-custom {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-action {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+.dashboard-header {
+  margin-bottom: 30px !important;
+  padding-bottom: 20px !important;
+  border-bottom: 2px solid var(--border);
+}
+
+.dashboard-header h2 {
+  color: #ffffff !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+}
+.dashboard-header p {
+  color: #ffffff !important;
+}
+
+.dashboard-header > div:first-child {
+  flex: 1;
+}
+
+.dashboard-header > div:last-child {
+  margin-left: 20px;
+}
+
+.custom-table {
+  margin: 0 !important;
+  background: var(--card) !important;
+}
+
+.custom-table tbody tr:hover {
+  background: #374151 !important;
+}
+
+.custom-table td {
+  color: #000000 !important; /* ← Testo bianco */
+  padding: 14px !important;
+  border-color: #1a202c !important;
+  vertical-align: middle;
 }
