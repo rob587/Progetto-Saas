@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://progetto-saas.vercel.app/",
+  baseURL: "https://progetto-saas-d8tjwou7h-rob587s-projects.vercel.app/",
 });
 
 API.interceptors.request.use((config) => {
