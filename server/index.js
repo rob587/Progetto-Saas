@@ -7,8 +7,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://progetto-saas.vercel.app",
-    credentials: true,
+    origin: "*",
+    credentials: false,
   }),
 );
 app.use(express.json());
