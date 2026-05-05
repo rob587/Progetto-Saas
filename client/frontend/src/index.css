@@ -121,7 +121,7 @@ body {
 }
 
 .table th {
-  color: var(--text) !important;
+  color: #0f0c0c !important;
   font-weight: 600 !important;
   border-color: var(--border) !important;
 }
